@@ -1,10 +1,10 @@
-#  Google Cloud Run CI/CD Demo
+#  Google Cloud Run CI/CD Demo:
 
 This project is a hands-on DevOps showcase that deploys a simple Python HTTP server
 (serving an `index.html` page) to **Google Cloud Run** using a fully automated
 **CI/CD pipeline** with **Cloud Build** and **Artifact Registry**.
 
-## Architecture (Professional View)
+## Architecture:
 
 - **Source Control**: GitHub repository `ai-cloud-webapp`
 - **CI/CD Engine**: Google Cloud Build with a GitHub-trigger (`deploy-on-commit`)
@@ -16,10 +16,9 @@ This project is a hands-on DevOps showcase that deploys a simple Python HTTP ser
 - **Logging**:
   - Build logs and runtime logs sent to **Cloud Logging** (`CLOUD_LOGGING_ONLY`)
 
-### High-Level Flow
+### High-Level Flow:
 
-
-Developer → GitHub → Cloud Build Trigger → Cloud Build → Artifact Registry → Cloud Run → End Users
+- Developer → GitHub → Cloud Build Trigger → Cloud Build → Artifact Registry → Cloud Run → End Users
 
              
              
