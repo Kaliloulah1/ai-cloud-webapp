@@ -18,7 +18,7 @@
 ## Live Demo (Production):
 - The application is live and publicly accessible on Google Cloud Run:
 - Public HTTPS Endpoint:
-https://ai-cloud-webapp-412058831292.us-central1.run.app
+- 
 - Cloud Run automatically, scales the application and only runs when traffic is received.
 
 ---
