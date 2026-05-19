@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibrahim Camara — AWS Cloud & DevOps Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --navy2: #111827;
+    --navy3: #1a2332;
+    --border: #1e2d4a;
+    --blue: #3b82f6;
+    --blue-dim: #1e3a5f;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --aws: #FF9900;
+    --gcp: #1d9e75;
+    --accent: #60a5fa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px 64px;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 32px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    background: var(--navy3);
+    border: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--accent);
+    flex-shrink: 0;
+    letter-spacing: -1px;
+  }
+
+  .header-text { flex: 1; }
+
+  .name {
+    font-size: 22px;
+    font-weight: 500;
+    color: #f1f5f9;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+
+  .role {
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+
+  .location {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .card {
+    background: var(--navy2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .card.full { grid-column: 1 / -1; }
+
+  .card-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+
+  /* BADGES */
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .badge {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 9px;
+    border-radius: 6px;
+    border: 0.5px solid;
+  }
+
+  .badge.aws {
+    background: #1a1000;
+    border-color: #7a4800;
+    color: var(--aws);
+  }
+
+  .badge.gcp {
+    background: #041a14;
+    border-color: #0f4a37;
+    color: var(--gcp);
+  }
+
+  .badge.default {
+    background: #0f1e35;
+    border-color: var(--blue-dim);
+    color: #93c5fd;
+  }
+
+  /* CERT */
+  .cert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cert-logo {
+    width: 38px;
+    height: 38px;
+    background: var(--aws);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    color: #000;
+    flex-shrink: 0;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .cert-name {
+    font-size: 13px;
+    color: #f1f5f9;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .cert-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* PROJECT DEPLOYMENTS */
+  .project-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .project-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .project-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* LINKS */
+  .links { display: flex; flex-direction: column; gap: 10px; }
+
+  .link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+    text-decoration: none;
+  }
+
+  .link-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .link-type {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    min-width: 80px;
+  }
+
+  .link-val {
+    font-size: 12px;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    text-align: right;
+  }
+
+  .link-arrow {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: 6px;
+  }
+
+  /* DEPLOYMENT SECTION */
+  .deploy-section {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 0.5px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+    animation-delay: 0.6s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .deploy-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .deploy-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    min-width: 80px;
+  }
+
+  .deploy-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .deploy-pill {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 8px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .deploy-pill.live-gcp {
+    border-color: #0f4a37;
+    color: var(--gcp);
+    background: #041a14;
+  }
+
+  .deploy-pill.live-aws {
+    border-color: #7a4800;
+    color: var(--aws);
+    background: #1a1000;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.15s; }
+  .card:nth-child(3) { animation-delay: 0.2s; }
+  .card:nth-child(4) { animation-delay: 0.25s; }
+  .card:nth-child(5) { animation-delay: 0.3s; }
+  .header { animation-delay: 0.05s; }
+
+  /* MOBILE */
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: 1fr; }
+    .card.full { grid-column: 1; }
+    .page { padding: 32px 16px 48px; }
+    .name { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="avatar">IC</div>
+    <div class="header-text">
+      <div class="name">Ibrahim Camara</div>
+      <div class="role">AWS Cloud &amp; DevOps Engineer</div>
+      <div class="location">Washington DC-Baltimore Area</div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card full">
+      <div class="card-label">Tech stack</div>
+      <div class="badges">
+        <span class="badge aws">AWS</span>
+        <span class="badge gcp">GCP</span>
+        <span class="badge default">Terraform</span>
+        <span class="badge default">Docker</span>
+        <span class="badge default">Kubernetes</span>
+        <span class="badge default">ECS Fargate</span>
+        <span class="badge default">EKS</span>
+        <span class="badge default">Jenkins</span>
+        <span class="badge default">GitHub Actions</span>
+        <span class="badge default">Cloud Run</span>
+        <span class="badge default">CI/CD</span>
+        <span class="badge default">Python</span>
+        <span class="badge default">Bash</span>
+        <span class="badge default">Linux</span>
+        <span class="badge default">IAM</span>
+        <span class="badge default">VPC</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Certification</div>
+      <div class="cert">
+        <div class="cert-logo">AWS<br>CCP</div>
+        <div>
+          <div class="cert-name">Cloud Practitioner</div>
+          <div class="cert-sub">AWS — Apr 2023</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">This project</div>
+      <div class="project-list">
+        <div class="project-item">
+          <div class="cert-logo" style="background:#1d9e75; font-size:8px;">GCP<br>RUN</div>
+          <div>
+            <div class="cert-name">Cloud Run + Terraform</div>
+            <div class="cert-sub">CI/CD via Cloud Build</div>
+          </div>
+        </div>
+        <div class="project-item">
+          <div class="cert-logo" style="background:#FF9900; font-size:8px; color:#000;">ECS<br>AWS</div>
+          <div>
+            <div class="cert-name">ECS Fargate + ECR</div>
+            <div class="cert-sub">Multi-cloud deployment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card full">
+      <div class="card-label">Connect</div>
+      <div class="links">
+        <a class="link-row" href="https://github.com/Kaliloulah1" target="_blank">
+          <span class="link-type">GitHub</span>
+          <span><span class="link-val">github.com/Kaliloulah1</span><span class="link-arrow">↗</span></span>
+        </a>
+        <a class="link-row" href="https://linkedin.com/in/ibrahim-camara-devops" target="_blank">
+          <span class="link-type">LinkedIn</span>
+          <span><span class="link-val">ibrahim-camara-devops</span><span class="link-arrow">↗</span></span>
+        </a>
+        <a class="link-row" href="https://medium.com/@ibrahimcamara1" target="_blank">
+          <span class="link-type">Blog</span>
+          <span><span class="link-val">medium.com/@ibrahimcamara1</span><span class="link-arrow">↗</span></span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="deploy-section">
+    <div class="deploy-row">
+      <span class="deploy-label">GCP stack</span>
+      <div class="deploy-pills">
+        <span class="deploy-pill">GitHub</span>
+        <span class="deploy-pill">Cloud Build</span>
+        <span class="deploy-pill">Artifact Registry</span>
+        <span class="deploy-pill live-gcp">Cloud Run ●</span>
+      </div>
+    </div>
+    <div class="deploy-row">
+      <span class="deploy-label">AWS stack</span>
+      <div class="deploy-pills">
+        <span class="deploy-pill">GitHub</span>
+        <span class="deploy-pill">Docker</span>
+        <span class="deploy-pill">ECR</span>
+        <span class="deploy-pill live-aws">ECS Fargate ●</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
