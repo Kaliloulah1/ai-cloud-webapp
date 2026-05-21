@@ -33,12 +33,25 @@ jobs:
 
       - name: Build, tag, and push image to ECR
         id: build-image
+        timeout-minutes: 15
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          for i in {1..3}; do
+            if docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG; then
+              echo "Push successful"
+              break
+            elif [ $i -eq 3 ]; then
+              echo "Push failed after 3 attempts"
+              exit 1
+            else
+              wait_time=$((2 ** (i - 1)))
+              echo "Push attempt $i failed. Retrying in ${wait_time}s..."
+              sleep $wait_time
+            fi
+          done
 
       - name: Update ECS service
         run: |
