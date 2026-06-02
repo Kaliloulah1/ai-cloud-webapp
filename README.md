@@ -1,124 +1,166 @@
-## AI Cloud Web App – CI/CD with Google Cloud Run:
-# Project Overview:
+# 🌐 AI Cloud Web App — CI/CD with GCP Cloud Run
 
-- This project demonstrates a production-ready CI/CD pipeline that automatically builds, pushes, and deploys a containerized web application to Google Cloud Run using Google Cloud Build and GitHub.
+![GCP](https://img.shields.io/badge/GCP-Cloud_Run-4285F4?logo=google-cloud)
+![Terraform](https://img.shields.io/badge/IaC-Terraform-7B42BC?logo=terraform)
+![Docker](https://img.shields.io/badge/Container-Docker-2496ED?logo=docker)
+![CI/CD](https://img.shields.io/badge/CI/CD-Cloud_Build-orange?logo=google-cloud)
+![Status](https://img.shields.io/badge/Status-Live-brightgreen)
 
-## The goal of this project is to showcase:
+A production-ready CI/CD pipeline that automatically builds, pushes, and deploys a containerized web application to **Google Cloud Run** using **Cloud Build**, **Artifact Registry**, and **Terraform**.
 
-- Cloud-native CI/CD design
-
-- Secure IAM configuration
-
-- Artifact Registry usage
-
-- Serverless deployment with Cloud Run
-
-- Real-world DevOps troubleshooting and recovery
-
-## Live Demo (Production):
-- The application is live and publicly accessible on Google Cloud Run:
-- Public HTTPS Endpoint:
-  https://ai-cloud-webapp-cklskspokq-uc.a.run.app/
-- Cloud Run automatically, scales the application and only runs when traffic is received.
+🌐 **Live Demo:** [https://ibrahimcamara.pro](https://ibrahimcamara.pro)
 
 ---
 
-##  Architecture Overview
+## 📐 Architecture Overview
 
-# Workflow:
+```
+Developer
+    │
+    │ git push (main branch)
+    ▼
+GitHub Repository
+    │
+    │ triggers
+    ▼
+Cloud Build Trigger
+    │
+    ▼
+Cloud Build (cloudbuild.yaml)
+    │
+    ├── Build Docker image
+    ├── Push to Artifact Registry
+    └── Deploy to Cloud Run
+                │
+                ▼
+        Cloud Run Service
+         (ai-cloud-webapp)
+                │
+                │ HTTPS traffic
+                ▼
+           End Users
+```
 
-1- Developer pushes code to GitHub (main branch)
+---
 
-2- Cloud Build Trigger detects the commit
+## ☁️ GCP Services Used
 
-3- Cloud Build:
+| Service | Purpose |
+|---|---|
+| **Cloud Run** | Serverless container hosting — scales to zero |
+| **Cloud Build** | CI/CD pipeline — builds and deploys on every push |
+| **Artifact Registry** | Docker image storage |
+| **IAM** | Service accounts and least-privilege roles |
+| **Terraform** | Infrastructure as Code for all GCP resources |
+| **GitHub** | Source control + Cloud Build trigger |
 
-- Builds Docker image
+---
 
-- Pushes image to Artifact Registry
+## 🔧 Tech Stack
 
-- Deploys the image to Cloud Run
+- **Cloud:** GCP (Cloud Run, Cloud Build, Artifact Registry)
+- **IaC:** Terraform 1.x
+- **Container:** Docker (python:3.9-slim)
+- **App:** Python HTTP server serving static HTML
+- **CI/CD:** Google Cloud Build (cloudbuild.yaml)
+- **Auth:** IAM Service Accounts
+- **Domain:** Custom domain with HTTPS via Cloud Run
 
-4- Cloud Run serves traffic securely over HTTPS
+---
 
-Key Services Used:
+## 📁 Repository Structure
 
-- Google Cloud Run
+```
+ai-cloud-webapp/
+├── Dockerfile           # Python 3.9-slim, serves index.html on port 8080
+├── index.html           # Web application
+├── cloudbuild.yaml      # CI/CD pipeline — build, push, deploy
+└── terraform/           # GCP infrastructure as code
+    ├── main.tf
+    ├── variables.tf
+    └── outputs.tf
+```
 
-- Google Cloud Build
+---
 
-- Artifact Registry
+## 🚀 CI/CD Pipeline Flow
 
-- GitHub (Source Control)
+Every `git push` to the `main` branch triggers this automated pipeline:
 
-- Docker
+```
+1. Developer pushes code to GitHub (main branch)
+2. Cloud Build Trigger detects the commit
+3. Cloud Build executes cloudbuild.yaml:
+   a. Builds Docker image
+   b. Pushes image to Artifact Registry
+   c. Deploys image to Cloud Run
+4. Cloud Run serves traffic securely over HTTPS
+5. Custom domain ibrahimcamara.pro routes to Cloud Run
+```
 
-- IAM (Service Accounts & Roles)
+---
 
-## Tech Stack:
+## 🏗️ Infrastructure Deployment
 
-- Language: HTML (static web app)
+### Prerequisites
+- GCP account with billing enabled
+- `gcloud` CLI installed and authenticated
+- Terraform >= 1.0 installed
 
-- Container: Docker (python:3.9-slim)
+### Step 1: Clone the repository
+```bash
+git clone https://github.com/Kaliloulah1/ai-cloud-webapp.git
+cd ai-cloud-webapp
+```
 
-- CI/CD: Google Cloud Build (Triggers)
+### Step 2: Deploy infrastructure with Terraform
+```bash
+cd terraform
+terraform init
+terraform plan
+terraform apply
+```
 
-- Registry: Artifact Registry
+### Step 3: Trigger deployment
+```bash
+git add .
+git commit -m "Deploy update"
+git push origin main
+```
+Cloud Build automatically picks up the push and deploys! ✅
 
-- Compute: Google Cloud Run (Fully Managed)
+### Step 4: Verify deployment
+```bash
+gcloud run services list --region us-central1
+```
 
-- Authentication: IAM Service Accounts
+---
 
-- Tools: Google Cloud Shell, GitHub
+## 🔒 Security Design
 
-## High-Level Flow:
+- Cloud Run service account has **minimum required permissions** only
+- Docker images stored in **private Artifact Registry**
+- All traffic served over **HTTPS** (managed by Cloud Run)
+- No secrets stored in code — IAM roles used for authentication
 
-- Developer → GitHub → Cloud Build Trigger → Cloud Build → Artifact Registry → Cloud Run → End Users
+---
 
-             
-             
-             +---------------------+
-             |     GitHub Repo     |
-             |  ai-cloud-webapp    |
-             +----------+----------+
-                        |
-                        | Push (git commit)
-                        v
-             +---------------------+
-             |  Cloud Build Trigger|
-             |  (deploy-on-commit) |
-             +----------+----------+
-                        |
-                        v
-             +---------------------+
-             |     Cloud Build     |
-             |  cloudbuild.yaml    |
-             +----------+----------+
-          build / push  |
-                        v
-       +----------------+--------------------+
-       |          Artifact Registry          |
-       |  us-central1 / webapp-repo          |
-       +----------------+--------------------+
-                        |
-                        | container image
-                        v
-             +-----------------------------+
-             |          Cloud Run          |
-             |  Service: ai-cloud-webapp   |
-             |  Region: us-central1        |
-             +-----------------------------+
-                        |
-                        | HTTPS traffic
-                        v
-                 End Users / Browser
+## 🌐 Multi-Cloud Context
 
+This project is part of a broader **multi-cloud portfolio**:
 
-##  Repository Structure:
+| Cloud | Stack | Repo |
+|---|---|---|
+| GCP | Cloud Run + Cloud Build + Artifact Registry + Terraform | This repo |
+| AWS | ECS Fargate + ECR + ALB + Terraform | [aws-ecs-infrastructure-terraform](https://github.com/Kaliloulah1/aws-ecs-infrastructure-terraform) |
 
-.
-├── Dockerfile        # Python 3.9-slim, serves index.html on port 8080 ( Container definition )
-├── index.html        # Web application
-└── cloudbuild.yaml   # Build, push and deploy CI/CD pipeline definition
+---
 
+## 👨‍💻 Author
 
+**Ibrahim Camara** — AWS Cloud & DevOps Engineer
+
+🌐 [ibrahimcamara.pro](https://ibrahimcamara.pro)
+💼 [LinkedIn](https://linkedin.com/in/ibrahim-camara-devops)
+📂 [GitHub](https://github.com/Kaliloulah1)
+📝 [Blog](https://medium.com/@ibrahimcamara1)
